@@ -1,5 +1,0 @@
-[33m1b59578[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Dodano nowe sekcje i poprawki w dokumentacji: zaktualizowano DEVELOPER.md, README.md, ROADMAP.md oraz Sprint.md, wprowadzając dodatkowe informacje o funkcjonalnościach, wymaganiach i metrykach sukcesu. Ulepszono formatowanie i spójność treści.
-[33mc9ff0cd[m Dodano kompletną dokumentację projektu - README.md, DEVELOPER.md, USER_GUIDE.md, ROADMAP.md oraz zaktualizowano Sprint.md z podsumowaniem
-[33m8bf7ce9[m Merge dev into main - resolved database file conflicts
-[33m807d297[m Remove database files from tracking (should be ignored)
-[33m0cf2a93[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m Dodano konfigurację testów E2E z użyciem Playwright. Wprowadzono nowe pliki testowe dla operacji CRUD, przeciągania i upuszczania, responsywności oraz integracji z PocketBase. Zaktualizowano pliki konfiguracyjne oraz dodano raporty testowe w formacie HTML, JSON i JUnit. Ulepszono dokumentację w README.md, aby zawierała instrukcje uruchamiania testów oraz najlepsze praktyki.

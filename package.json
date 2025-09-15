@@ -7,7 +7,14 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:mobile": "playwright test --project=chromium-mobile",
+    "test:e2e:tablet": "playwright test --project=chromium-tablet",
+    "test:e2e:desktop": "playwright test --project=chromium-desktop",
+    "test:e2e:all-devices": "playwright test --project=chromium-mobile --project=chromium-tablet --project=chromium-desktop"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -19,6 +26,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@playwright/test": "^1.55.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",

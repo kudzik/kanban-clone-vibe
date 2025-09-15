@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "appName": "Kanban Board",
+    "appUrl": "http://localhost:5173"
+  },
+  "logs": {
+    "maxDays": 5
+  },
+  "smtp": {
+    "enabled": false
+  },
+  "s3": {
+    "enabled": false
+  },
+  "backups": {
+    "cron": "0 2 * * *",
+    "s3": {
+      "enabled": false
+    }
+  },
+  "adminAuthToken": {
+    "secret": "your-secret-key-here"
+  },
+  "adminPasswordResetToken": {
+    "secret": "your-secret-key-here"
+  },
+  "recordAuthToken": {
+    "secret": "your-secret-key-here"
+  },
+  "recordPasswordResetToken": {
+    "secret": "your-secret-key-here"
+  },
+  "recordEmailChangeToken": {
+    "secret": "your-secret-key-here"
+  },
+  "recordVerificationToken": {
+    "secret": "your-secret-key-here"
+  },
+  "apis": {
+    "cors": {
+      "enabled": true,
+      "origins": [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:5174",
+        "http://127.0.0.1:5174"
+      ]
+    }
+  }
+}

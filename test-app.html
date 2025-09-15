@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Kanban App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .loading { background-color: #fff3cd; border-color: #ffeaa7; }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background-color: #0056b3; }
+        pre { background-color: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Test Aplikacji Kanban</h1>
+        
+        <div class="test-section" id="vite-test">
+            <h3>1. Test serwera Vite (localhost:5174)</h3>
+            <p id="vite-status">Sprawdzanie...</p>
+            <button onclick="testVite()">Testuj Vite</button>
+        </div>
+
+        <div class="test-section" id="pocketbase-test">
+            <h3>2. Test PocketBase (localhost:8090)</h3>
+            <p id="pocketbase-status">Sprawdzanie...</p>
+            <button onclick="testPocketBase()">Testuj PocketBase</button>
+        </div>
+
+        <div class="test-section" id="cors-test">
+            <h3>3. Test CORS</h3>
+            <p id="cors-status">Sprawdzanie...</p>
+            <button onclick="testCors()">Testuj CORS</button>
+        </div>
+
+        <div class="test-section">
+            <h3>4. Linki</h3>
+            <p>
+                <a href="http://localhost:5174" target="_blank">🚀 Aplikacja Kanban</a> |
+                <a href="http://localhost:8090/_/" target="_blank">⚙️ Panel PocketBase</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        async function testVite() {
+            const status = document.getElementById('vite-status');
+            const section = document.getElementById('vite-test');
+            
+            try {
+                section.className = 'test-section loading';
+                status.textContent = 'Sprawdzanie...';
+                
+                const response = await fetch('http://localhost:5174/');
+                if (response.ok) {
+                    section.className = 'test-section success';
+                    status.textContent = '✅ Serwer Vite działa poprawnie';
+                } else {
+                    section.className = 'test-section error';
+                    status.textContent = `❌ Błąd: ${response.status} ${response.statusText}`;
+                }
+            } catch (error) {
+                section.className = 'test-section error';
+                status.textContent = `❌ Błąd połączenia: ${error.message}`;
+            }
+        }
+
+        async function testPocketBase() {
+            const status = document.getElementById('pocketbase-status');
+            const section = document.getElementById('pocketbase-test');
+            
+            try {
+                section.className = 'test-section loading';
+                status.textContent = 'Sprawdzanie...';
+                
+                const response = await fetch('http://localhost:8090/api/collections/columns/records');
+                if (response.ok) {
+                    const data = await response.json();
+                    section.className = 'test-section success';
+                    status.textContent = `✅ PocketBase działa - ${data.totalItems} kolumn`;
+                } else {
+                    section.className = 'test-section error';
+                    status.textContent = `❌ Błąd: ${response.status} ${response.statusText}`;
+                }
+            } catch (error) {
+                section.className = 'test-section error';
+                status.textContent = `❌ Błąd połączenia: ${error.message}`;
+            }
+        }
+
+        async function testCors() {
+            const status = document.getElementById('cors-status');
+            const section = document.getElementById('cors-test');
+            
+            try {
+                section.className = 'test-section loading';
+                status.textContent = 'Sprawdzanie...';
+                
+                // Test CORS z localhost:5174
+                const response = await fetch('http://localhost:8090/api/collections/columns/records', {
+                    method: 'GET',
+                    headers: {
+                        'Origin': 'http://localhost:5174'
+                    }
+                });
+                
+                if (response.ok) {
+                    section.className = 'test-section success';
+                    status.textContent = '✅ CORS skonfigurowany poprawnie';
+                } else {
+                    section.className = 'test-section error';
+                    status.textContent = `❌ Błąd CORS: ${response.status}`;
+                }
+            } catch (error) {
+                section.className = 'test-section error';
+                status.textContent = `❌ Błąd CORS: ${error.message}`;
+            }
+        }
+
+        // Automatyczne testy przy ładowaniu
+        window.onload = function() {
+            testVite();
+            testPocketBase();
+            testCors();
+        };
+    </script>
+</body>
+</html>

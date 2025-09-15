@@ -93,10 +93,11 @@ https://[username].github.io/[repository-name]
 **Przyczyna**: GitHub Pages nie jest włączone lub źle skonfigurowane
 
 **Rozwiązanie**:
-1. **Ręczne włączenie GitHub Pages**:
+1. **OBOWIĄZKOWE - Ręczne włączenie GitHub Pages**:
    - Przejdź do: `https://github.com/kudzik/kanban-clone-vibe/settings/pages`
    - W sekcji "Source" wybierz "GitHub Actions"
    - Kliknij "Save"
+   - **BEZ TEGO KROKU DEPLOYMENT NIE ZADZIAŁA!**
 
 2. **Ustaw uprawnienia**:
    - Przejdź do: `https://github.com/kudzik/kanban-clone-vibe/settings/actions`
@@ -108,9 +109,9 @@ https://[username].github.io/[repository-name]
    - Sprawdź status deploymentu w zakładce "Actions"
 
 4. **Jeśli nadal błąd**:
+   - Upewnij się, że wykonałeś krok 1 (włączenie GitHub Pages)
    - Poczekaj 5-10 minut na propagację
    - Sprawdź czy repozytorium jest publiczne
-   - Upewnij się, że nie ma błędów w workflow
 
 ### Problem: Aplikacja nie ładuje się
 - Sprawdź czy PocketBase jest uruchomione

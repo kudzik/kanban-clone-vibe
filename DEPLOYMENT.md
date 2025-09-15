@@ -93,12 +93,24 @@ https://[username].github.io/[repository-name]
 **Przyczyna**: GitHub Pages nie jest włączone lub źle skonfigurowane
 
 **Rozwiązanie**:
-1. Przejdź do Settings → Pages w repozytorium GitHub
-2. W sekcji "Source" wybierz "GitHub Actions"
-3. Zapisz zmiany
-4. W Settings → Actions → General ustaw "Workflow permissions" na "Read and write permissions"
-5. Zrób push do brancha `main` aby uruchomić workflow
-6. Sprawdź status deploymentu w zakładce "Actions"
+1. **Ręczne włączenie GitHub Pages**:
+   - Przejdź do: `https://github.com/kudzik/kanban-clone-vibe/settings/pages`
+   - W sekcji "Source" wybierz "GitHub Actions"
+   - Kliknij "Save"
+
+2. **Ustaw uprawnienia**:
+   - Przejdź do: `https://github.com/kudzik/kanban-clone-vibe/settings/actions`
+   - W sekcji "Workflow permissions" wybierz "Read and write permissions"
+   - Kliknij "Save"
+
+3. **Uruchom workflow**:
+   - Zrób push do brancha `main` aby uruchomić workflow
+   - Sprawdź status deploymentu w zakładce "Actions"
+
+4. **Jeśli nadal błąd**:
+   - Poczekaj 5-10 minut na propagację
+   - Sprawdź czy repozytorium jest publiczne
+   - Upewnij się, że nie ma błędów w workflow
 
 ### Problem: Aplikacja nie ładuje się
 - Sprawdź czy PocketBase jest uruchomione

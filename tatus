@@ -1,2 +1,5 @@
 * [32mfeature[m
   main[m
+[33m3c7429c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Naprawiono GitHub Actions workflow dla GitHub Pages - dodano uprawnienia i nowoczesne actions
+[33m69ce520[m Usunięto niepotrzebny plik 'h origin main'
+[33m9af04a9[m Dodano konfigurację deploymentu: GitHub Actions workflow, zaktualizowany .gitignore i dokumentację DEPLOYMENT.md

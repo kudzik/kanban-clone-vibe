@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { useDroppable } from '@dnd-kit/core';
 import Card from './Card';
 import { columnsApi, cardsApi } from '../services/pocketbase';
 import type { CardData, CreateCardData } from '../services/pocketbase';
@@ -18,6 +22,26 @@ const Column: React.FC<ColumnProps> = ({ id, title, order, cards, onColumnUpdate
   const [isAddingCard, setIsAddingCard] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState('');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  // Konfiguracja sortable dla kolumny
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
+
+  // Konfiguracja droppable dla kolumny (aby karty mogły być upuszczane)
+  const { setNodeRef: setDroppableRef, isOver } = useDroppable({
+    id: id,
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   // Sortuj karty według kolejności
   const sortedCards = [...cards].sort((a, b) => a.order - b.order);
@@ -124,37 +148,57 @@ const Column: React.FC<ColumnProps> = ({ id, title, order, cards, onColumnUpdate
 
   return (
     <div 
-      className={`${colors.bg} rounded-xl shadow-xl p-4 min-h-96 w-80 flex-shrink-0 flex flex-col border border-gray-700`}
+      ref={(node) => {
+        setNodeRef(node);
+        setDroppableRef(node);
+      }}
+      style={style}
+      className={`${colors.bg} rounded-xl shadow-xl p-4 min-h-96 w-80 flex-shrink-0 flex flex-col border border-gray-700 ${
+        isDragging ? 'opacity-50 shadow-2xl' : ''
+      } ${
+        isOver ? 'ring-2 ring-purple-500 ring-opacity-50' : ''
+      }`}
       data-column-id={id}
       data-order={order}
+      {...attributes}
+      {...listeners}
     >
       {/* Nagłówek kolumny */}
       <div className="flex items-center justify-between mb-4">
-        {isEditingTitle ? (
-          <input
-            type="text"
-            value={editedTitle}
-            onChange={(e) => setEditedTitle(e.target.value)}
-            className={`bg-transparent border-b-2 border-purple-500 text-lg font-semibold ${colors.header} focus:outline-none`}
-            autoFocus
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleEditTitle();
-              } else if (e.key === 'Escape') {
-                handleCancelEditTitle();
-              }
-            }}
-            onBlur={handleEditTitle}
-          />
-        ) : (
-          <h2 
-            className={`text-lg font-semibold ${colors.header} cursor-pointer hover:text-purple-300 transition-colors`}
-            onClick={() => setIsEditingTitle(true)}
-            title="Kliknij aby edytować tytuł"
-          >
-            {title}
-          </h2>
-        )}
+        <div className="flex items-center gap-2 flex-1">
+          {/* Drag handle */}
+          <div className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-white transition-colors">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+            </svg>
+          </div>
+          
+          {isEditingTitle ? (
+            <input
+              type="text"
+              value={editedTitle}
+              onChange={(e) => setEditedTitle(e.target.value)}
+              className={`bg-transparent border-b-2 border-purple-500 text-lg font-semibold ${colors.header} focus:outline-none flex-1`}
+              autoFocus
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleEditTitle();
+                } else if (e.key === 'Escape') {
+                  handleCancelEditTitle();
+                }
+              }}
+              onBlur={handleEditTitle}
+            />
+          ) : (
+            <h2 
+              className={`text-lg font-semibold ${colors.header} cursor-pointer hover:text-purple-300 transition-colors flex-1`}
+              onClick={() => setIsEditingTitle(true)}
+              title="Kliknij aby edytować tytuł"
+            >
+              {title}
+            </h2>
+          )}
+        </div>
         
         <div className="flex items-center gap-1">
           {!isEditingTitle && (
@@ -210,28 +254,33 @@ const Column: React.FC<ColumnProps> = ({ id, title, order, cards, onColumnUpdate
 
       {/* Lista kart */}
       <div className="flex-1 space-y-3 min-h-0">
-        {sortedCards.length > 0 ? (
-          sortedCards.map((card) => (
-            <Card
-              key={card.id}
-              id={card.id}
-              title={card.title}
-              order={card.order}
-              columnId={card.column}
-              onCardUpdate={onCardUpdate}
-            />
-          ))
-        ) : (
-          <div className="text-center text-gray-400 py-12">
-            <div className="w-12 h-12 mx-auto mb-3 bg-gray-700 rounded-full flex items-center justify-center">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
+        <SortableContext
+          items={sortedCards.map(card => card.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {sortedCards.length > 0 ? (
+            sortedCards.map((card) => (
+              <Card
+                key={card.id}
+                id={card.id}
+                title={card.title}
+                order={card.order}
+                columnId={card.column}
+                onCardUpdate={onCardUpdate}
+              />
+            ))
+          ) : (
+            <div className="text-center text-gray-400 py-12">
+              <div className="w-12 h-12 mx-auto mb-3 bg-gray-700 rounded-full flex items-center justify-center">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+              </div>
+              <p className="text-sm font-medium">Brak zadań</p>
+              <p className="text-xs text-gray-500 mt-1">Dodaj nowe zadanie poniżej</p>
             </div>
-            <p className="text-sm font-medium">Brak zadań</p>
-            <p className="text-xs text-gray-500 mt-1">Dodaj nowe zadanie poniżej</p>
-          </div>
-        )}
+          )}
+        </SortableContext>
       </div>
 
       {/* Przycisk dodawania nowej karty */}

@@ -35,9 +35,9 @@ Zbudowanie jednoplanszowego menedżera zadań w stylu Kanban z funkcjonalnościa
 ---
 
 ## Krok 5: Drag and Drop
-- Dodanie obsługi przeciągania i upuszczania kolumn dla zmiany kolejności.
-- Dodanie przeciągania i upuszczania kart w kolumnach oraz pomiędzy kolumnami.
-- Dodanie wizualnych wskaźników podczas przeciągania (cień, podświetlenie).
+- [x] Dodanie obsługi przeciągania i upuszczania kolumn dla zmiany kolejności.
+- [x] Dodanie przeciągania i upuszczania kart w kolumnach oraz pomiędzy kolumnami.
+- [x] Dodanie wizualnych wskaźników podczas przeciągania (cień, podświetlenie).
 
 ---
 

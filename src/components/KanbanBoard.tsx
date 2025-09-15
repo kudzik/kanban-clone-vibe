@@ -1,4 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import {
+  DndContext,
+  DragOverlay,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  closestCenter,
+} from '@dnd-kit/core';
+import type { DragEndEvent, DragStartEvent, DragOverEvent } from '@dnd-kit/core';
+import {
+  SortableContext,
+  horizontalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import Column from './Column';
 import { columnsApi, cardsApi } from '../services/pocketbase';
 import type { ColumnData, CardData } from '../services/pocketbase';
@@ -10,6 +23,17 @@ const KanbanBoard: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isAddingColumn, setIsAddingColumn] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState('');
+  const [activeColumn, setActiveColumn] = useState<ColumnData | null>(null);
+  const [activeCard, setActiveCard] = useState<CardData | null>(null);
+
+  // Konfiguracja sensorów dla drag and drop
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
 
   // Pobierz dane z API
   const fetchData = async () => {
@@ -86,6 +110,206 @@ const KanbanBoard: React.FC = () => {
     setIsAddingColumn(false);
   };
 
+  // Obsługa rozpoczęcia przeciągania
+  const handleDragStart = (event: DragStartEvent) => {
+    const { active } = event;
+    
+    // Sprawdź czy przeciągana jest kolumna
+    const column = columns.find(col => col.id === active.id);
+    if (column) {
+      setActiveColumn(column);
+      return;
+    }
+    
+    // Sprawdź czy przeciągana jest karta
+    const card = cards.find(card => card.id === active.id);
+    if (card) {
+      setActiveCard(card);
+      return;
+    }
+  };
+
+  // Obsługa przeciągania nad elementami (dla kart między kolumnami)
+  const handleDragOver = (event: DragOverEvent) => {
+    const { active, over } = event;
+    
+    if (!over) return;
+    
+    const activeId = active.id;
+    const overId = over.id;
+    
+    // Jeśli przeciągana jest karta
+    const activeCard = cards.find(card => card.id === activeId);
+    if (!activeCard) return;
+    
+    // Sprawdź czy upuszczamy na kolumnę
+    const overColumn = columns.find(col => col.id === overId);
+    if (overColumn) {
+      // Przenieś kartę do nowej kolumny
+      if (activeCard.column !== overColumn.id) {
+        setCards(cards => {
+          const newCards = cards.map(card => {
+            if (card.id === activeId) {
+              return { ...card, column: overColumn.id };
+            }
+            return card;
+          });
+          return newCards;
+        });
+      }
+      return;
+    }
+    
+    // Sprawdź czy upuszczamy na inną kartę
+    const overCard = cards.find(card => card.id === overId);
+    if (overCard) {
+      // Przenieś kartę do kolumny docelowej karty
+      if (activeCard.column !== overCard.column) {
+        setCards(cards => {
+          const newCards = cards.map(card => {
+            if (card.id === activeId) {
+              return { ...card, column: overCard.column };
+            }
+            return card;
+          });
+          return newCards;
+        });
+      }
+    }
+  };
+
+  // Obsługa zakończenia przeciągania
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    setActiveColumn(null);
+    setActiveCard(null);
+
+    if (!over || active.id === over.id) {
+      return;
+    }
+
+    // Obsługa przeciągania kolumn
+    const activeColumn = columns.find(col => col.id === active.id);
+    if (activeColumn) {
+      const overColumn = columns.find(col => col.id === over.id);
+      if (!overColumn) return;
+
+      const oldIndex = columns.findIndex(col => col.id === active.id);
+      const newIndex = columns.findIndex(col => col.id === over.id);
+
+      if (oldIndex === newIndex) return;
+
+      const newColumns = [...columns];
+      const [movedColumn] = newColumns.splice(oldIndex, 1);
+      newColumns.splice(newIndex, 0, movedColumn);
+
+      try {
+        const updatePromises = newColumns.map((column, index) => 
+          columnsApi.update(column.id, { order: index })
+        );
+        
+        await Promise.all(updatePromises);
+        
+        setColumns(newColumns.map((column, index) => ({
+          ...column,
+          order: index
+        })));
+      } catch (error) {
+        console.error('Błąd podczas aktualizacji kolejności kolumn:', error);
+        fetchData();
+      }
+      return;
+    }
+
+    // Obsługa przeciągania kart
+    const activeCard = cards.find(card => card.id === active.id);
+    if (!activeCard) return;
+
+    const overId = over.id;
+    
+    // Sprawdź czy upuszczamy na kolumnę
+    const overColumn = columns.find(col => col.id === overId);
+    if (overColumn) {
+      // Przenieś kartę do nowej kolumny na koniec
+      const columnCards = cards.filter(card => card.column === overColumn.id);
+      const newOrder = columnCards.length;
+      
+      try {
+        await cardsApi.update(activeCard.id, {
+          column: overColumn.id,
+          order: newOrder
+        });
+        fetchData();
+      } catch (error) {
+        console.error('Błąd podczas przenoszenia karty:', error);
+        fetchData();
+      }
+      return;
+    }
+    
+    // Sprawdź czy upuszczamy na inną kartę
+    const overCard = cards.find(card => card.id === overId);
+    if (overCard) {
+      const isOverSameColumn = activeCard.column === overCard.column;
+      
+      if (isOverSameColumn) {
+        // Przesuń kartę w tej samej kolumnie
+        const columnCards = cards
+          .filter(card => card.column === activeCard.column)
+          .sort((a, b) => a.order - b.order);
+        
+        const oldIndex = columnCards.findIndex(card => card.id === active.id);
+        const newIndex = columnCards.findIndex(card => card.id === over.id);
+        
+        if (oldIndex === newIndex) return;
+        
+        const newCards = [...columnCards];
+        const [movedCard] = newCards.splice(oldIndex, 1);
+        newCards.splice(newIndex, 0, movedCard);
+        
+        try {
+          const updatePromises = newCards.map((card, index) => 
+            cardsApi.update(card.id, { order: index })
+          );
+          
+          await Promise.all(updatePromises);
+          fetchData();
+        } catch (error) {
+          console.error('Błąd podczas aktualizacji kolejności kart:', error);
+          fetchData();
+        }
+      } else {
+        // Przenieś kartę do innej kolumny
+        const targetColumnCards = cards
+          .filter(card => card.column === overCard.column)
+          .sort((a, b) => a.order - b.order);
+        
+        const overIndex = targetColumnCards.findIndex(card => card.id === over.id);
+        
+        try {
+          // Zaktualizuj kolejność kart w kolumnie docelowej
+          const updatePromises = targetColumnCards.map((card, index) => {
+            const newOrder = index >= overIndex ? index + 1 : index;
+            return cardsApi.update(card.id, { order: newOrder });
+          });
+          
+          await Promise.all(updatePromises);
+          
+          // Przenieś aktywną kartę
+          await cardsApi.update(activeCard.id, {
+            column: overCard.column,
+            order: overIndex
+          });
+          
+          fetchData();
+        } catch (error) {
+          console.error('Błąd podczas przenoszenia karty między kolumnami:', error);
+          fetchData();
+        }
+      }
+    }
+  };
+
   // Obsługa błędów
   if (error) {
     return (
@@ -134,22 +358,33 @@ const KanbanBoard: React.FC = () => {
         </div>
 
         {/* Tablica z kolumnami */}
-        <div className="flex gap-6 overflow-x-auto pb-6 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-          {columns.length > 0 ? (
-            columns
-              .sort((a, b) => a.order - b.order)
-              .map((column) => (
-                <Column
-                  key={column.id}
-                  id={column.id}
-                  title={column.title}
-                  order={column.order}
-                  cards={getCardsForColumn(column.id)}
-                  onColumnUpdate={fetchData}
-                  onCardUpdate={fetchData}
-                />
-              ))
-          ) : (
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}
+        >
+          <div className="flex gap-6 overflow-x-auto pb-6 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+            <SortableContext
+              items={columns.map(col => col.id)}
+              strategy={horizontalListSortingStrategy}
+            >
+              {columns.length > 0 ? (
+                columns
+                  .sort((a, b) => a.order - b.order)
+                  .map((column) => (
+                    <Column
+                      key={column.id}
+                      id={column.id}
+                      title={column.title}
+                      order={column.order}
+                      cards={getCardsForColumn(column.id)}
+                      onColumnUpdate={fetchData}
+                      onCardUpdate={fetchData}
+                    />
+                  ))
+              ) : (
             <div className="w-full text-center py-16">
               <div className="w-16 h-16 mx-auto mb-4 bg-gray-700 rounded-full flex items-center justify-center">
                 <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -161,8 +396,41 @@ const KanbanBoard: React.FC = () => {
                 Sprawdź czy PocketBase działa i czy dane zostały załadowane
               </p>
             </div>
-          )}
-        </div>
+              )}
+            </SortableContext>
+          </div>
+          
+          {/* Drag Overlay dla wizualnego feedback podczas przeciągania */}
+          <DragOverlay>
+            {activeColumn ? (
+              <div className="bg-gray-800 rounded-xl shadow-2xl p-4 min-h-96 w-80 flex-shrink-0 flex flex-col border border-gray-700 opacity-90 rotate-3 transform">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-semibold text-white">
+                    {activeColumn.title}
+                  </h2>
+                </div>
+                <div className="flex-1 space-y-3 min-h-0">
+                  <div className="text-center text-gray-400 py-12">
+                    <div className="w-12 h-12 mx-auto mb-3 bg-gray-700 rounded-full flex items-center justify-center">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                    </div>
+                    <p className="text-sm font-medium">Przeciąganie kolumny...</p>
+                  </div>
+                </div>
+              </div>
+            ) : activeCard ? (
+              <div className="bg-gray-700 rounded-lg shadow-2xl border border-gray-600 p-3 opacity-90 rotate-2 transform">
+                <div className="flex items-start justify-between">
+                  <h3 className="text-sm font-medium text-white leading-tight">
+                    {activeCard.title}
+                  </h3>
+                </div>
+              </div>
+            ) : null}
+          </DragOverlay>
+        </DndContext>
 
         {/* Przycisk dodawania nowej kolumny */}
         <div className="mt-6">

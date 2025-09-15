@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from './Card';
-
-interface CardData {
-  id: string;
-  title: string;
-  order: number;
-  column: string;
-}
+import { columnsApi, cardsApi } from '../services/pocketbase';
+import type { CardData, CreateCardData } from '../services/pocketbase';
 
 interface ColumnProps {
   id: string;
   title: string;
   order: number;
   cards: CardData[];
+  onColumnUpdate: () => void;
+  onCardUpdate: () => void;
 }
 
-const Column: React.FC<ColumnProps> = ({ id, title, order, cards }) => {
+const Column: React.FC<ColumnProps> = ({ id, title, order, cards, onColumnUpdate, onCardUpdate }) => {
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(title);
+  const [isAddingCard, setIsAddingCard] = useState(false);
+  const [newCardTitle, setNewCardTitle] = useState('');
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
   // Sortuj karty według kolejności
   const sortedCards = [...cards].sort((a, b) => a.order - b.order);
 
@@ -54,6 +57,71 @@ const Column: React.FC<ColumnProps> = ({ id, title, order, cards }) => {
 
   const colors = getColumnColor(title);
 
+  // Obsługa edycji tytułu kolumny
+  const handleEditTitle = async () => {
+    if (!editedTitle.trim() || editedTitle.trim() === title) {
+      setEditedTitle(title);
+      setIsEditingTitle(false);
+      return;
+    }
+
+    try {
+      await columnsApi.update(id, { title: editedTitle.trim() });
+      setIsEditingTitle(false);
+      onColumnUpdate();
+    } catch (error) {
+      console.error('Błąd podczas aktualizacji tytułu kolumny:', error);
+      setEditedTitle(title); // Przywróć poprzedni tytuł
+    }
+  };
+
+  const handleCancelEditTitle = () => {
+    setEditedTitle(title);
+    setIsEditingTitle(false);
+  };
+
+  // Obsługa usuwania kolumny
+  const handleDeleteColumn = async () => {
+    try {
+      // Najpierw usuń wszystkie karty w kolumnie
+      const columnCards = cards.filter(card => card.column === id);
+      for (const card of columnCards) {
+        await cardsApi.delete(card.id);
+      }
+      
+      // Następnie usuń kolumnę
+      await columnsApi.delete(id);
+      onColumnUpdate();
+    } catch (error) {
+      console.error('Błąd podczas usuwania kolumny:', error);
+    }
+  };
+
+  // Obsługa dodawania nowej karty
+  const handleAddCard = async () => {
+    if (!newCardTitle.trim()) return;
+
+    try {
+      const newCardData: CreateCardData = {
+        title: newCardTitle.trim(),
+        column: id,
+        order: cards.length
+      };
+
+      await cardsApi.create(newCardData);
+      setNewCardTitle('');
+      setIsAddingCard(false);
+      onCardUpdate();
+    } catch (error) {
+      console.error('Błąd podczas dodawania karty:', error);
+    }
+  };
+
+  const handleCancelAddCard = () => {
+    setNewCardTitle('');
+    setIsAddingCard(false);
+  };
+
   return (
     <div 
       className={`${colors.bg} rounded-xl shadow-xl p-4 min-h-96 w-80 flex-shrink-0 flex flex-col border border-gray-700`}
@@ -62,14 +130,82 @@ const Column: React.FC<ColumnProps> = ({ id, title, order, cards }) => {
     >
       {/* Nagłówek kolumny */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className={`text-lg font-semibold ${colors.header}`}>
-          {title}
-        </h2>
-        <button className="text-gray-400 hover:text-white">
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-          </svg>
-        </button>
+        {isEditingTitle ? (
+          <input
+            type="text"
+            value={editedTitle}
+            onChange={(e) => setEditedTitle(e.target.value)}
+            className={`bg-transparent border-b-2 border-purple-500 text-lg font-semibold ${colors.header} focus:outline-none`}
+            autoFocus
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleEditTitle();
+              } else if (e.key === 'Escape') {
+                handleCancelEditTitle();
+              }
+            }}
+            onBlur={handleEditTitle}
+          />
+        ) : (
+          <h2 
+            className={`text-lg font-semibold ${colors.header} cursor-pointer hover:text-purple-300 transition-colors`}
+            onClick={() => setIsEditingTitle(true)}
+            title="Kliknij aby edytować tytuł"
+          >
+            {title}
+          </h2>
+        )}
+        
+        <div className="flex items-center gap-1">
+          {!isEditingTitle && (
+            <button 
+              onClick={() => setIsEditingTitle(true)}
+              className="text-gray-400 hover:text-white p-1 rounded transition-colors"
+              title="Edytuj tytuł"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+            </button>
+          )}
+          
+          <div className="relative">
+            <button 
+              onClick={() => setShowDeleteConfirm(!showDeleteConfirm)}
+              className="text-gray-400 hover:text-red-400 p-1 rounded transition-colors"
+              title="Usuń kolumnę"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+            
+            {showDeleteConfirm && (
+              <div className="absolute right-0 top-8 bg-gray-800 border border-gray-600 rounded-lg p-3 shadow-lg z-10 min-w-48">
+                <p className="text-sm text-white mb-3">
+                  Czy na pewno chcesz usunąć kolumnę "{title}"?
+                </p>
+                <p className="text-xs text-gray-400 mb-3">
+                  Ta akcja usunie również wszystkie karty w tej kolumnie.
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleDeleteColumn}
+                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm transition-colors"
+                  >
+                    Usuń
+                  </button>
+                  <button
+                    onClick={() => setShowDeleteConfirm(false)}
+                    className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-sm transition-colors"
+                  >
+                    Anuluj
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Lista kart */}
@@ -82,6 +218,7 @@ const Column: React.FC<ColumnProps> = ({ id, title, order, cards }) => {
               title={card.title}
               order={card.order}
               columnId={card.column}
+              onCardUpdate={onCardUpdate}
             />
           ))
         ) : (
@@ -98,18 +235,50 @@ const Column: React.FC<ColumnProps> = ({ id, title, order, cards }) => {
       </div>
 
       {/* Przycisk dodawania nowej karty */}
-      <button 
-        className={`mt-4 w-full py-2 text-sm ${colors.button} border-2 border-dashed border-gray-600 hover:border-gray-500 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 group`}
-        onClick={() => {
-          // TODO: Implementować dodawanie nowej karty
-          console.log('Dodaj nową kartę do kolumny:', title);
-        }}
-      >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-        </svg>
-        Add a card
-      </button>
+      {isAddingCard ? (
+        <div className="mt-4">
+          <textarea
+            value={newCardTitle}
+            onChange={(e) => setNewCardTitle(e.target.value)}
+            placeholder="Wprowadź tytuł karty..."
+            className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent mb-3 resize-none"
+            rows={3}
+            autoFocus
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleAddCard();
+              } else if (e.key === 'Escape') {
+                handleCancelAddCard();
+              }
+            }}
+          />
+          <div className="flex gap-2">
+            <button
+              onClick={handleAddCard}
+              className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded text-sm transition-colors duration-200"
+            >
+              Dodaj kartę
+            </button>
+            <button
+              onClick={handleCancelAddCard}
+              className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-sm transition-colors duration-200"
+            >
+              Anuluj
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button 
+          className={`mt-4 w-full py-2 text-sm ${colors.button} border-2 border-dashed border-gray-600 hover:border-gray-500 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 group`}
+          onClick={() => setIsAddingCard(true)}
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+          Dodaj kartę
+        </button>
+      )}
     </div>
   );
 };

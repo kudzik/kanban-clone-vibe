@@ -27,10 +27,10 @@ Zbudowanie jednoplanszowego menedżera zadań w stylu Kanban z funkcjonalnościa
 
 ---
 
-## Krok 4: Funkcjonalność CRUD
-- Dodawanie, edycja i usuwanie kolumn (z potwierdzeniem na usuwanie).
-- Dodawanie, edycja tytułów i usuwanie kart.
-- Aktualizacja danych w PocketBase oraz zapisywanie lokalnie.
+## Krok 4: Funkcjonalność CRUD ✅
+- [x] Dodawanie, edycja i usuwanie kolumn (z potwierdzeniem na usuwanie).
+- [x] Dodawanie, edycja tytułów i usuwanie kart.
+- [x] Aktualizacja danych w PocketBase oraz zapisywanie lokalnie.
 
 ---
 

@@ -145,6 +145,8 @@ const KanbanBoard: React.FC = () => {
                   title={column.title}
                   order={column.order}
                   cards={getCardsForColumn(column.id)}
+                  onColumnUpdate={fetchData}
+                  onCardUpdate={fetchData}
                 />
               ))
           ) : (

@@ -5,6 +5,7 @@ Nowoczesny menedżer zadań w stylu Kanban zbudowany z React, TypeScript i Pocke
 ## 🚀 Funkcjonalności
 
 ### ✨ Główne cechy
+
 - **Zarządzanie kolumnami** - Tworzenie, edycja i usuwanie list zadań
 - **Zarządzanie kartami** - Dodawanie, edycja i usuwanie zadań
 - **Drag & Drop** - Intuicyjne przeciąganie kart między kolumnami
@@ -13,6 +14,7 @@ Nowoczesny menedżer zadań w stylu Kanban zbudowany z React, TypeScript i Pocke
 - **Testy E2E** - Kompleksowe testy z Playwright
 
 ### 🎨 UI/UX
+
 - Nowoczesny, czysty design z TailwindCSS
 - Płynne animacje i przejścia
 - Wizualne wskaźniki podczas przeciągania
@@ -31,24 +33,28 @@ Nowoczesny menedżer zadań w stylu Kanban zbudowany z React, TypeScript i Pocke
 ## 📦 Instalacja
 
 ### Wymagania
-- Node.js 18+ 
+
+- Node.js 18+
 - npm lub yarn
 - PocketBase (lokalnie lub zdalnie)
 
 ### Kroki instalacji
 
 1. **Sklonuj repozytorium**
+
 ```bash
 git clone https://github.com/kudzik/kanban-clone-vibe.git
 cd kanban-clone-vibe
 ```
 
 2. **Zainstaluj zależności**
+
 ```bash
 npm install
 ```
 
 3. **Skonfiguruj PocketBase**
+
 ```bash
 # Pobierz PocketBase (jeśli nie masz)
 # Windows
@@ -60,6 +66,7 @@ unzip pocketbase.zip
 ```
 
 4. **Uruchom aplikację**
+
 ```bash
 npm run dev
 ```
@@ -69,6 +76,7 @@ Aplikacja będzie dostępna pod adresem `http://localhost:5173`
 ## 🧪 Testowanie
 
 ### Uruchomienie testów E2E
+
 ```bash
 # Instalacja Playwright (jeśli nie zainstalowany)
 npx playwright install
@@ -81,6 +89,7 @@ npm run test:e2e:ui
 ```
 
 ### Rodzaje testów
+
 - **CRUD Operations** - Testy operacji na kolumnach i kartach
 - **Drag & Drop** - Testy przeciągania i upuszczania
 - **Responsive** - Testy responsywności na różnych urządzeniach
@@ -109,10 +118,13 @@ tests/
 ## 🔧 Konfiguracja
 
 ### PocketBase
+
 Aplikacja wymaga działającego serwera PocketBase. Sprawdź plik `POCKETBASE_SETUP.md` dla szczegółowej konfiguracji.
 
 ### Zmienne środowiskowe
+
 Utwórz plik `.env.local`:
+
 ```env
 VITE_POCKETBASE_URL=http://localhost:8090
 ```
@@ -127,17 +139,20 @@ VITE_POCKETBASE_URL=http://localhost:8090
 ## 🚀 Deployment
 
 ### Build produkcyjny
+
 ```bash
 npm run build
 ```
 
 ### Deploy na Netlify
+
 1. Połącz repozytorium z Netlify
 2. Ustaw build command: `npm run build`
 3. Ustaw publish directory: `dist`
 4. Skonfiguruj zmienne środowiskowe
 
 ### Deploy na GitHub Pages
+
 ```bash
 npm run build
 npm run deploy
@@ -158,18 +173,21 @@ Ten projekt jest licencjonowany na licencji MIT - zobacz plik [LICENSE.md](LICEN
 ## 🎯 Roadmap
 
 ### Wersja 1.1
+
 - [ ] Filtrowanie i wyszukiwanie kart
 - [ ] Kategorie i tagi
 - [ ] Eksport/import danych
 - [ ] Notifications
 
 ### Wersja 1.2
+
 - [ ] Współpraca w czasie rzeczywistym
 - [ ] Komentarze na kartach
 - [ ] Załączniki
 - [ ] Timeline aktywności
 
 ### Wersja 2.0
+
 - [ ] Wielu użytkowników
 - [ ] Role i uprawnienia
 - [ ] Integracje z zewnętrznymi narzędziami
@@ -178,6 +196,7 @@ Ten projekt jest licencjonowany na licencji MIT - zobacz plik [LICENSE.md](LICEN
 ## 🐛 Zgłaszanie błędów
 
 Jeśli znajdziesz błąd, utwórz issue z następującymi informacjami:
+
 - Opis błędu
 - Kroki do reprodukcji
 - Oczekiwane vs rzeczywiste zachowanie

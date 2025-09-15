@@ -85,12 +85,14 @@ Zbudowanie jednoplanszowego menedżera zadań w stylu Kanban z funkcjonalnościa
 ### ✅ Zrealizowane funkcjonalności
 
 #### 🏗️ Architektura i środowisko
+
 - **React 18 + TypeScript + Vite** - Nowoczesny stack technologiczny
 - **TailwindCSS** - Responsywny design system
 - **PocketBase** - Backend-as-a-Service z REST API
 - **@dnd-kit** - Zaawansowana obsługa drag & drop
 
 #### 🎯 Funkcjonalności główne
+
 - **Zarządzanie kolumnami** - CRUD operations z walidacją
 - **Zarządzanie kartami** - Pełna funkcjonalność z edycją inline
 - **Drag & Drop** - Przeciąganie kolumn i kart z wizualnymi wskaźnikami
@@ -98,6 +100,7 @@ Zbudowanie jednoplanszowego menedżera zadań w stylu Kanban z funkcjonalnościa
 - **Synchronizacja** - Automatyczne zapisywanie w PocketBase
 
 #### 🧪 Testowanie i jakość
+
 - **Testy E2E** - Kompleksowe testy z Playwright
 - **Testy CRUD** - Operacje na kolumnach i kartach
 - **Testy drag & drop** - Funkcjonalność przeciągania
@@ -105,6 +108,7 @@ Zbudowanie jednoplanszowego menedżera zadań w stylu Kanban z funkcjonalnościa
 - **Testy integracji** - Połączenie z PocketBase
 
 #### 📚 Dokumentacja
+
 - **README.md** - Kompletna dokumentacja projektu
 - **DEVELOPER.md** - Szczegółowa dokumentacja techniczna
 - **USER_GUIDE.md** - Przewodnik użytkownika
@@ -112,6 +116,7 @@ Zbudowanie jednoplanszowego menedżera zadań w stylu Kanban z funkcjonalnościa
 - **Testy E2E README** - Dokumentacja testów
 
 #### 🚀 Deployment
+
 - **GitHub Repository** - Publiczne repozytorium
 - **Build produkcyjny** - Konfiguracja Vite
 - **Remote origin** - Synchronizacja z GitHub
@@ -135,6 +140,7 @@ Zbudowanie jednoplanszowego menedżera zadań w stylu Kanban z funkcjonalnościa
 ### 🔄 Backlog i przyszłe funkcje
 
 #### Wersja 1.1 (Krótkoterminowe)
+
 - [ ] Filtrowanie i wyszukiwanie kart
 - [ ] Kategorie i tagi dla kart
 - [ ] Eksport/import danych (JSON, CSV)
@@ -142,6 +148,7 @@ Zbudowanie jednoplanszowego menedżera zadań w stylu Kanban z funkcjonalnościa
 - [ ] Dark mode
 
 #### Wersja 1.2 (Średnioterminowe)
+
 - [ ] Współpraca w czasie rzeczywistym
 - [ ] Komentarze na kartach
 - [ ] Załączniki do kart
@@ -149,6 +156,7 @@ Zbudowanie jednoplanszowego menedżera zadań w stylu Kanban z funkcjonalnościa
 - [ ] Szablony kolumn
 
 #### Wersja 2.0 (Długoterminowe)
+
 - [ ] System użytkowników i autoryzacji
 - [ ] Role i uprawnienia
 - [ ] Integracje z zewnętrznymi narzędziami
@@ -158,18 +166,21 @@ Zbudowanie jednoplanszowego menedżera zadań w stylu Kanban z funkcjonalnościa
 ### 🏆 Wnioski i rekomendacje
 
 #### Co poszło dobrze
+
 - **Szybki development** - Vite + React zapewniły szybką iterację
 - **PocketBase** - Doskonały wybór dla MVP, szybka konfiguracja
 - **@dnd-kit** - Bardzo dobra biblioteka do drag & drop
 - **Testy E2E** - Playwright okazał się bardzo przydatny
 
 #### Obszary do poprawy
+
 - **Error handling** - Można rozszerzyć obsługę błędów
 - **Performance** - Optymalizacja dla dużych ilości danych
 - **Accessibility** - Rozszerzenie wsparcia dla screen readerów
 - **Internationalization** - Wsparcie dla wielu języków
 
 #### Rekomendacje na przyszłość
+
 1. **Monitoring** - Dodać system monitoringu błędów (Sentry)
 2. **Analytics** - Implementacja Google Analytics
 3. **CI/CD** - Automatyzacja testów i deploymentu

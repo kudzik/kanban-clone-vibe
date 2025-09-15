@@ -15,6 +15,7 @@ KanbanBoard (główny kontener)
 ### Model danych
 
 #### Column
+
 ```typescript
 interface Column {
   id: string;
@@ -26,6 +27,7 @@ interface Column {
 ```
 
 #### Card
+
 ```typescript
 interface Card {
   id: string;
@@ -40,6 +42,7 @@ interface Card {
 ## 🔧 Konfiguracja środowiska
 
 ### Wymagania systemowe
+
 - Node.js 18+
 - npm 9+ lub yarn 1.22+
 - PocketBase 0.22+
@@ -47,6 +50,7 @@ interface Card {
 ### Setup deweloperski
 
 1. **Klonowanie i instalacja**
+
 ```bash
 git clone https://github.com/kudzik/kanban-clone-vibe.git
 cd kanban-clone-vibe
@@ -54,6 +58,7 @@ npm install
 ```
 
 2. **Konfiguracja PocketBase**
+
 ```bash
 # Pobierz PocketBase
 curl -L https://github.com/pocketbase/pocketbase/releases/latest/download/pocketbase_0.22.12_windows_amd64.zip -o pocketbase.zip
@@ -64,12 +69,14 @@ unzip pocketbase.zip
 ```
 
 3. **Konfiguracja bazy danych**
+
 ```bash
 # Uruchom skrypt inicjalizacji
 node init-default-data.js
 ```
 
 4. **Uruchomienie aplikacji**
+
 ```bash
 npm run dev
 ```
@@ -134,6 +141,7 @@ export const pocketbaseService = {
 ### Kolekcje PocketBase
 
 #### Kolekcja `columns`
+
 ```javascript
 {
   "id": "string",
@@ -145,6 +153,7 @@ export const pocketbaseService = {
 ```
 
 #### Kolekcja `cards`
+
 ```javascript
 {
   "id": "string",
@@ -159,6 +168,7 @@ export const pocketbaseService = {
 ## 🎨 System stylowania
 
 ### TailwindCSS
+
 Aplikacja używa TailwindCSS z niestandardową konfiguracją:
 
 ```javascript
@@ -181,6 +191,7 @@ module.exports = {
 ```
 
 ### Klasy CSS
+
 - **Kolumny**: `bg-gray-100`, `border-gray-300`, `rounded-lg`
 - **Karty**: `bg-white`, `shadow-sm`, `hover:shadow-md`
 - **Przyciski**: `bg-blue-500`, `hover:bg-blue-600`, `text-white`
@@ -260,6 +271,7 @@ const handleDragEnd = (event: DragEndEvent) => {
 ```
 
 ### Obsługiwane operacje
+
 - Przeciąganie kolumn (zmiana kolejności)
 - Przeciąganie kart w obrębie kolumny
 - Przeciąganie kart między kolumnami
@@ -268,21 +280,25 @@ const handleDragEnd = (event: DragEndEvent) => {
 ## 🚀 Build i deployment
 
 ### Build produkcyjny
+
 ```bash
 npm run build
 ```
 
 ### Analiza bundle
+
 ```bash
 npm run build -- --analyze
 ```
 
 ### Preview build
+
 ```bash
 npm run preview
 ```
 
 ### Deploy na Netlify
+
 1. Połącz repozytorium
 2. Build command: `npm run build`
 3. Publish directory: `dist`
@@ -290,6 +306,7 @@ npm run preview
    - `VITE_POCKETBASE_URL`: URL PocketBase
 
 ### Deploy na Vercel
+
 ```bash
 npm install -g vercel
 vercel --prod
@@ -298,12 +315,14 @@ vercel --prod
 ## 🐛 Debugging
 
 ### Narzędzia deweloperskie
+
 - React Developer Tools
-- PocketBase Admin UI (http://localhost:8090/_/)
+- PocketBase Admin UI (<http://localhost:8090/_/>)
 - Browser DevTools
 - Playwright Inspector
 
 ### Logi i monitoring
+
 ```typescript
 // Przykład logowania
 console.log('Column created:', newColumn);
@@ -327,12 +346,14 @@ console.error('API Error:', error);
 ## 📊 Performance
 
 ### Optymalizacje
+
 - Lazy loading komponentów
 - Memoization z React.memo
 - Debounced API calls
 - Virtual scrolling (dla dużych list)
 
 ### Metryki
+
 - First Contentful Paint: < 1.5s
 - Largest Contentful Paint: < 2.5s
 - Cumulative Layout Shift: < 0.1
@@ -340,12 +361,14 @@ console.error('API Error:', error);
 ## 🔒 Bezpieczeństwo
 
 ### Best practices
+
 - Walidacja danych po stronie klienta i serwera
 - Sanityzacja inputów użytkownika
 - HTTPS w produkcji
 - CORS configuration w PocketBase
 
 ### Zmienne środowiskowe
+
 ```env
 VITE_POCKETBASE_URL=http://localhost:8090
 VITE_APP_ENV=development
@@ -354,6 +377,7 @@ VITE_APP_ENV=development
 ## 📈 Monitoring i analytics
 
 ### Error tracking
+
 ```typescript
 // Przykład error boundary
 class ErrorBoundary extends React.Component {
@@ -365,6 +389,7 @@ class ErrorBoundary extends React.Component {
 ```
 
 ### Performance monitoring
+
 ```typescript
 // Web Vitals
 import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
@@ -379,6 +404,7 @@ getTTFB(console.log);
 ## 🤝 Contributing
 
 ### Workflow
+
 1. Fork repository
 2. Create feature branch
 3. Make changes
@@ -387,12 +413,14 @@ getTTFB(console.log);
 6. Create pull request
 
 ### Code style
+
 - ESLint + Prettier
 - TypeScript strict mode
 - Conventional commits
 - Jest/Playwright tests
 
 ### Pull request template
+
 ```markdown
 ## Opis zmian
 - [ ] Dodano nową funkcjonalność

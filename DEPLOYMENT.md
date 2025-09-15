@@ -12,9 +12,19 @@ Aplikacja jest skonfigurowana do automatycznego deploymentu na GitHub Pages.
 - GitHub Actions workflow (już skonfigurowany)
 
 #### Kroki:
-1. Przejdź do Settings → Pages w swoim repozytorium GitHub
-2. Wybierz "GitHub Actions" jako źródło
-3. Każdy push do brancha `main` automatycznie zbuduje i wdroży aplikację
+1. **Włącz GitHub Pages**:
+   - Przejdź do Settings → Pages w swoim repozytorium GitHub
+   - W sekcji "Source" wybierz "GitHub Actions"
+   - Zapisz zmiany
+
+2. **Zweryfikuj uprawnienia**:
+   - W Settings → Actions → General
+   - Upewnij się, że "Workflow permissions" jest ustawione na "Read and write permissions"
+   - Zapisz zmiany
+
+3. **Automatyczny deployment**:
+   - Każdy push do brancha `main` automatycznie zbuduje i wdroży aplikację
+   - Sprawdź status w zakładce "Actions"
 
 #### URL aplikacji:
 ```
@@ -78,6 +88,17 @@ https://[username].github.io/[repository-name]
 - [ ] ✅ Aplikacja jest dostępna publicznie
 
 ## 🐛 Troubleshooting
+
+### Problem: 404 - "There isn't a GitHub Pages site here"
+**Przyczyna**: GitHub Pages nie jest włączone lub źle skonfigurowane
+
+**Rozwiązanie**:
+1. Przejdź do Settings → Pages w repozytorium GitHub
+2. W sekcji "Source" wybierz "GitHub Actions"
+3. Zapisz zmiany
+4. W Settings → Actions → General ustaw "Workflow permissions" na "Read and write permissions"
+5. Zrób push do brancha `main` aby uruchomić workflow
+6. Sprawdź status deploymentu w zakładce "Actions"
 
 ### Problem: Aplikacja nie ładuje się
 - Sprawdź czy PocketBase jest uruchomione

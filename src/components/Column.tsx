@@ -153,22 +153,23 @@ const Column: React.FC<ColumnProps> = ({ id, title, order, cards, onColumnUpdate
         setDroppableRef(node);
       }}
       style={style}
-      className={`${colors.bg} rounded-xl shadow-xl p-4 min-h-96 w-80 flex-shrink-0 flex flex-col border border-gray-700 ${
+      className={`${colors.bg} rounded-xl shadow-xl p-3 sm:p-4 min-h-80 sm:min-h-96 w-full sm:w-80 flex-shrink-0 flex flex-col border border-gray-700 snap-center ${
         isDragging ? 'opacity-50 shadow-2xl' : ''
       } ${
         isOver ? 'ring-2 ring-purple-500 ring-opacity-50' : ''
       }`}
       data-column-id={id}
       data-order={order}
+      data-testid={`column-${id}`}
       {...attributes}
       {...listeners}
     >
       {/* Nagłówek kolumny */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2 flex-1">
+      <div className="flex items-center justify-between mb-3 sm:mb-4">
+        <div className="flex items-center gap-1 sm:gap-2 flex-1 min-w-0">
           {/* Drag handle */}
-          <div className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-white transition-colors">
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <div className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-white transition-colors flex-shrink-0">
+            <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 20 20">
               <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
             </svg>
           </div>
@@ -178,7 +179,7 @@ const Column: React.FC<ColumnProps> = ({ id, title, order, cards, onColumnUpdate
               type="text"
               value={editedTitle}
               onChange={(e) => setEditedTitle(e.target.value)}
-              className={`bg-transparent border-b-2 border-purple-500 text-lg font-semibold ${colors.header} focus:outline-none flex-1`}
+              className={`bg-transparent border-b-2 border-purple-500 text-base sm:text-lg font-semibold ${colors.header} focus:outline-none flex-1 min-w-0`}
               autoFocus
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -191,7 +192,7 @@ const Column: React.FC<ColumnProps> = ({ id, title, order, cards, onColumnUpdate
             />
           ) : (
             <h2 
-              className={`text-lg font-semibold ${colors.header} cursor-pointer hover:text-purple-300 transition-colors flex-1`}
+              className={`text-base sm:text-lg font-semibold ${colors.header} cursor-pointer hover:text-purple-300 transition-colors flex-1 min-w-0 truncate`}
               onClick={() => setIsEditingTitle(true)}
               title="Kliknij aby edytować tytuł"
             >
@@ -270,14 +271,14 @@ const Column: React.FC<ColumnProps> = ({ id, title, order, cards, onColumnUpdate
               />
             ))
           ) : (
-            <div className="text-center text-gray-400 py-12">
-              <div className="w-12 h-12 mx-auto mb-3 bg-gray-700 rounded-full flex items-center justify-center">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="text-center text-gray-400 py-8 sm:py-12">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 bg-gray-700 rounded-full flex items-center justify-center">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
               </div>
-              <p className="text-sm font-medium">Brak zadań</p>
-              <p className="text-xs text-gray-500 mt-1">Dodaj nowe zadanie poniżej</p>
+              <p className="text-xs sm:text-sm font-medium">Brak zadań</p>
+              <p className="text-xs text-gray-500 mt-1 hidden sm:block">Dodaj nowe zadanie poniżej</p>
             </div>
           )}
         </SortableContext>
@@ -285,12 +286,12 @@ const Column: React.FC<ColumnProps> = ({ id, title, order, cards, onColumnUpdate
 
       {/* Przycisk dodawania nowej karty */}
       {isAddingCard ? (
-        <div className="mt-4">
+        <div className="mt-3 sm:mt-4">
           <textarea
             value={newCardTitle}
             onChange={(e) => setNewCardTitle(e.target.value)}
             placeholder="Wprowadź tytuł karty..."
-            className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent mb-3 resize-none"
+            className="w-full bg-gray-700 border border-gray-600 rounded-lg px-2 sm:px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent mb-3 resize-none text-sm sm:text-base"
             rows={3}
             autoFocus
             onKeyDown={(e) => {
@@ -302,16 +303,16 @@ const Column: React.FC<ColumnProps> = ({ id, title, order, cards, onColumnUpdate
               }
             }}
           />
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-col sm:flex-row">
             <button
               onClick={handleAddCard}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded text-sm transition-colors duration-200"
+              className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 rounded text-sm transition-colors duration-200 flex-1 sm:flex-none"
             >
               Dodaj kartę
             </button>
             <button
               onClick={handleCancelAddCard}
-              className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-sm transition-colors duration-200"
+              className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded text-sm transition-colors duration-200 flex-1 sm:flex-none"
             >
               Anuluj
             </button>
@@ -319,13 +320,14 @@ const Column: React.FC<ColumnProps> = ({ id, title, order, cards, onColumnUpdate
         </div>
       ) : (
         <button 
-          className={`mt-4 w-full py-2 text-sm ${colors.button} border-2 border-dashed border-gray-600 hover:border-gray-500 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 group`}
+          className={`mt-3 sm:mt-4 w-full py-2 text-xs sm:text-sm ${colors.button} border-2 border-dashed border-gray-600 hover:border-gray-500 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 group`}
           onClick={() => setIsAddingCard(true)}
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
-          Dodaj kartę
+          <span className="hidden sm:inline">Dodaj kartę</span>
+          <span className="sm:hidden">Dodaj</span>
         </button>
       )}
     </div>

@@ -1,0 +1,182 @@
+<testsuites id="" name="" tests="80" failures="0" skipped="0" errors="0" time="29.132633">
+<testsuite name="responsive.spec.ts" timestamp="2025-09-15T15:28:36.445Z" hostname="chromium-desktop" tests="8" failures="0" skipped="0" time="15.711" errors="0">
+<testcase name="Responsive Design › should display correctly on mobile viewport (375x667)" classname="responsive.spec.ts" time="1.469">
+</testcase>
+<testcase name="Responsive Design › should display correctly on tablet viewport (768x1024)" classname="responsive.spec.ts" time="1.379">
+</testcase>
+<testcase name="Responsive Design › should display correctly on desktop viewport (1920x1080)" classname="responsive.spec.ts" time="1.345">
+</testcase>
+<testcase name="Responsive Design › should handle horizontal scrolling on mobile" classname="responsive.spec.ts" time="2.471">
+</testcase>
+<testcase name="Responsive Design › should adapt button layouts on different viewports" classname="responsive.spec.ts" time="2.365">
+</testcase>
+<testcase name="Responsive Design › should handle text truncation on small screens" classname="responsive.spec.ts" time="1.972">
+</testcase>
+<testcase name="Responsive Design › should maintain functionality across viewport changes" classname="responsive.spec.ts" time="2.695">
+</testcase>
+<testcase name="Responsive Design › should handle empty state responsively" classname="responsive.spec.ts" time="2.015">
+</testcase>
+</testsuite>
+<testsuite name="responsive.spec.ts" timestamp="2025-09-15T15:28:36.445Z" hostname="firefox-desktop" tests="8" failures="0" skipped="0" time="45.469" errors="0">
+<testcase name="Responsive Design › should display correctly on mobile viewport (375x667)" classname="responsive.spec.ts" time="4.772">
+</testcase>
+<testcase name="Responsive Design › should display correctly on tablet viewport (768x1024)" classname="responsive.spec.ts" time="4.697">
+</testcase>
+<testcase name="Responsive Design › should display correctly on desktop viewport (1920x1080)" classname="responsive.spec.ts" time="4.532">
+</testcase>
+<testcase name="Responsive Design › should handle horizontal scrolling on mobile" classname="responsive.spec.ts" time="6.943">
+</testcase>
+<testcase name="Responsive Design › should adapt button layouts on different viewports" classname="responsive.spec.ts" time="6.428">
+</testcase>
+<testcase name="Responsive Design › should handle text truncation on small screens" classname="responsive.spec.ts" time="6.162">
+</testcase>
+<testcase name="Responsive Design › should maintain functionality across viewport changes" classname="responsive.spec.ts" time="6.914">
+</testcase>
+<testcase name="Responsive Design › should handle empty state responsively" classname="responsive.spec.ts" time="5.021">
+</testcase>
+</testsuite>
+<testsuite name="responsive.spec.ts" timestamp="2025-09-15T15:28:36.445Z" hostname="webkit-desktop" tests="8" failures="0" skipped="0" time="26.544" errors="0">
+<testcase name="Responsive Design › should display correctly on mobile viewport (375x667)" classname="responsive.spec.ts" time="2.125">
+</testcase>
+<testcase name="Responsive Design › should display correctly on tablet viewport (768x1024)" classname="responsive.spec.ts" time="2.09">
+</testcase>
+<testcase name="Responsive Design › should display correctly on desktop viewport (1920x1080)" classname="responsive.spec.ts" time="2.742">
+</testcase>
+<testcase name="Responsive Design › should handle horizontal scrolling on mobile" classname="responsive.spec.ts" time="4.859">
+</testcase>
+<testcase name="Responsive Design › should adapt button layouts on different viewports" classname="responsive.spec.ts" time="4.164">
+</testcase>
+<testcase name="Responsive Design › should handle text truncation on small screens" classname="responsive.spec.ts" time="2.799">
+</testcase>
+<testcase name="Responsive Design › should maintain functionality across viewport changes" classname="responsive.spec.ts" time="5.125">
+</testcase>
+<testcase name="Responsive Design › should handle empty state responsively" classname="responsive.spec.ts" time="2.64">
+</testcase>
+</testsuite>
+<testsuite name="responsive.spec.ts" timestamp="2025-09-15T15:28:36.445Z" hostname="chromium-tablet" tests="8" failures="0" skipped="0" time="15.641" errors="0">
+<testcase name="Responsive Design › should display correctly on mobile viewport (375x667)" classname="responsive.spec.ts" time="1.482">
+</testcase>
+<testcase name="Responsive Design › should display correctly on tablet viewport (768x1024)" classname="responsive.spec.ts" time="1.389">
+</testcase>
+<testcase name="Responsive Design › should display correctly on desktop viewport (1920x1080)" classname="responsive.spec.ts" time="1.428">
+</testcase>
+<testcase name="Responsive Design › should handle horizontal scrolling on mobile" classname="responsive.spec.ts" time="2.677">
+</testcase>
+<testcase name="Responsive Design › should adapt button layouts on different viewports" classname="responsive.spec.ts" time="2.391">
+</testcase>
+<testcase name="Responsive Design › should handle text truncation on small screens" classname="responsive.spec.ts" time="1.901">
+</testcase>
+<testcase name="Responsive Design › should maintain functionality across viewport changes" classname="responsive.spec.ts" time="2.829">
+</testcase>
+<testcase name="Responsive Design › should handle empty state responsively" classname="responsive.spec.ts" time="1.544">
+</testcase>
+</testsuite>
+<testsuite name="responsive.spec.ts" timestamp="2025-09-15T15:28:36.445Z" hostname="chromium-tablet-landscape" tests="8" failures="0" skipped="0" time="15.233" errors="0">
+<testcase name="Responsive Design › should display correctly on mobile viewport (375x667)" classname="responsive.spec.ts" time="1.358">
+</testcase>
+<testcase name="Responsive Design › should display correctly on tablet viewport (768x1024)" classname="responsive.spec.ts" time="1.373">
+</testcase>
+<testcase name="Responsive Design › should display correctly on desktop viewport (1920x1080)" classname="responsive.spec.ts" time="1.359">
+</testcase>
+<testcase name="Responsive Design › should handle horizontal scrolling on mobile" classname="responsive.spec.ts" time="2.631">
+</testcase>
+<testcase name="Responsive Design › should adapt button layouts on different viewports" classname="responsive.spec.ts" time="2.216">
+</testcase>
+<testcase name="Responsive Design › should handle text truncation on small screens" classname="responsive.spec.ts" time="1.868">
+</testcase>
+<testcase name="Responsive Design › should maintain functionality across viewport changes" classname="responsive.spec.ts" time="2.695">
+</testcase>
+<testcase name="Responsive Design › should handle empty state responsively" classname="responsive.spec.ts" time="1.733">
+</testcase>
+</testsuite>
+<testsuite name="responsive.spec.ts" timestamp="2025-09-15T15:28:36.445Z" hostname="chromium-mobile" tests="8" failures="0" skipped="0" time="19.172" errors="0">
+<testcase name="Responsive Design › should display correctly on mobile viewport (375x667)" classname="responsive.spec.ts" time="1.38">
+</testcase>
+<testcase name="Responsive Design › should display correctly on tablet viewport (768x1024)" classname="responsive.spec.ts" time="1.787">
+</testcase>
+<testcase name="Responsive Design › should display correctly on desktop viewport (1920x1080)" classname="responsive.spec.ts" time="2.674">
+</testcase>
+<testcase name="Responsive Design › should handle horizontal scrolling on mobile" classname="responsive.spec.ts" time="2.501">
+</testcase>
+<testcase name="Responsive Design › should adapt button layouts on different viewports" classname="responsive.spec.ts" time="3.448">
+</testcase>
+<testcase name="Responsive Design › should handle text truncation on small screens" classname="responsive.spec.ts" time="1.843">
+</testcase>
+<testcase name="Responsive Design › should maintain functionality across viewport changes" classname="responsive.spec.ts" time="2.687">
+</testcase>
+<testcase name="Responsive Design › should handle empty state responsively" classname="responsive.spec.ts" time="2.852">
+</testcase>
+</testsuite>
+<testsuite name="responsive.spec.ts" timestamp="2025-09-15T15:28:36.445Z" hostname="webkit-mobile" tests="8" failures="0" skipped="0" time="30.625" errors="0">
+<testcase name="Responsive Design › should display correctly on mobile viewport (375x667)" classname="responsive.spec.ts" time="1.877">
+</testcase>
+<testcase name="Responsive Design › should display correctly on tablet viewport (768x1024)" classname="responsive.spec.ts" time="2.777">
+</testcase>
+<testcase name="Responsive Design › should display correctly on desktop viewport (1920x1080)" classname="responsive.spec.ts" time="3.503">
+</testcase>
+<testcase name="Responsive Design › should handle horizontal scrolling on mobile" classname="responsive.spec.ts" time="5.077">
+</testcase>
+<testcase name="Responsive Design › should adapt button layouts on different viewports" classname="responsive.spec.ts" time="4.797">
+</testcase>
+<testcase name="Responsive Design › should handle text truncation on small screens" classname="responsive.spec.ts" time="2.923">
+</testcase>
+<testcase name="Responsive Design › should maintain functionality across viewport changes" classname="responsive.spec.ts" time="6.217">
+</testcase>
+<testcase name="Responsive Design › should handle empty state responsively" classname="responsive.spec.ts" time="3.454">
+</testcase>
+</testsuite>
+<testsuite name="responsive.spec.ts" timestamp="2025-09-15T15:28:36.445Z" hostname="chromium-mobile-landscape" tests="8" failures="0" skipped="0" time="19.511" errors="0">
+<testcase name="Responsive Design › should display correctly on mobile viewport (375x667)" classname="responsive.spec.ts" time="1.598">
+</testcase>
+<testcase name="Responsive Design › should display correctly on tablet viewport (768x1024)" classname="responsive.spec.ts" time="1.605">
+</testcase>
+<testcase name="Responsive Design › should display correctly on desktop viewport (1920x1080)" classname="responsive.spec.ts" time="2.595">
+</testcase>
+<testcase name="Responsive Design › should handle horizontal scrolling on mobile" classname="responsive.spec.ts" time="2.478">
+</testcase>
+<testcase name="Responsive Design › should adapt button layouts on different viewports" classname="responsive.spec.ts" time="3.586">
+</testcase>
+<testcase name="Responsive Design › should handle text truncation on small screens" classname="responsive.spec.ts" time="1.949">
+</testcase>
+<testcase name="Responsive Design › should maintain functionality across viewport changes" classname="responsive.spec.ts" time="3.139">
+</testcase>
+<testcase name="Responsive Design › should handle empty state responsively" classname="responsive.spec.ts" time="2.561">
+</testcase>
+</testsuite>
+<testsuite name="responsive.spec.ts" timestamp="2025-09-15T15:28:36.445Z" hostname="chromium-small-mobile" tests="8" failures="0" skipped="0" time="26.396" errors="0">
+<testcase name="Responsive Design › should display correctly on mobile viewport (375x667)" classname="responsive.spec.ts" time="1.945">
+</testcase>
+<testcase name="Responsive Design › should display correctly on tablet viewport (768x1024)" classname="responsive.spec.ts" time="2.239">
+</testcase>
+<testcase name="Responsive Design › should display correctly on desktop viewport (1920x1080)" classname="responsive.spec.ts" time="3.04">
+</testcase>
+<testcase name="Responsive Design › should handle horizontal scrolling on mobile" classname="responsive.spec.ts" time="4.713">
+</testcase>
+<testcase name="Responsive Design › should adapt button layouts on different viewports" classname="responsive.spec.ts" time="4.055">
+</testcase>
+<testcase name="Responsive Design › should handle text truncation on small screens" classname="responsive.spec.ts" time="2.755">
+</testcase>
+<testcase name="Responsive Design › should maintain functionality across viewport changes" classname="responsive.spec.ts" time="4.771">
+</testcase>
+<testcase name="Responsive Design › should handle empty state responsively" classname="responsive.spec.ts" time="2.878">
+</testcase>
+</testsuite>
+<testsuite name="responsive.spec.ts" timestamp="2025-09-15T15:28:36.445Z" hostname="chromium-large-desktop" tests="8" failures="0" skipped="0" time="14.906" errors="0">
+<testcase name="Responsive Design › should display correctly on mobile viewport (375x667)" classname="responsive.spec.ts" time="1.46">
+</testcase>
+<testcase name="Responsive Design › should display correctly on tablet viewport (768x1024)" classname="responsive.spec.ts" time="1.445">
+</testcase>
+<testcase name="Responsive Design › should display correctly on desktop viewport (1920x1080)" classname="responsive.spec.ts" time="1.397">
+</testcase>
+<testcase name="Responsive Design › should handle horizontal scrolling on mobile" classname="responsive.spec.ts" time="2.481">
+</testcase>
+<testcase name="Responsive Design › should adapt button layouts on different viewports" classname="responsive.spec.ts" time="2.384">
+</testcase>
+<testcase name="Responsive Design › should handle text truncation on small screens" classname="responsive.spec.ts" time="1.857">
+</testcase>
+<testcase name="Responsive Design › should maintain functionality across viewport changes" classname="responsive.spec.ts" time="2.449">
+</testcase>
+<testcase name="Responsive Design › should handle empty state responsively" classname="responsive.spec.ts" time="1.433">
+</testcase>
+</testsuite>
+</testsuites>

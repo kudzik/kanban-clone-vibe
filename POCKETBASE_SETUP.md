@@ -2,7 +2,7 @@
 
 ## Krok 1: Dostęp do panelu administracyjnego
 
-1. Otwórz przeglądarkę i przejdź do: http://localhost:8090/_/
+1. Otwórz przeglądarkę i przejdź do: <http://localhost:8090/_/>
 2. Utwórz konto administratora (pierwszy użytkownik)
 
 ## Krok 2: Utworzenie kolekcji "columns"
@@ -27,14 +27,16 @@
 
 ## Krok 4: Konfiguracja uprawnień
 
-### Dla kolekcji "columns":
+### Dla kolekcji "columns"
+
 - List/Search: Public
 - View: Public
 - Create: Public
 - Update: Public
 - Delete: Public
 
-### Dla kolekcji "cards":
+### Dla kolekcji "cards"
+
 - List/Search: Public
 - View: Public
 - Create: Public
@@ -44,19 +46,22 @@
 ## Krok 5: Test API
 
 Po skonfigurowaniu kolekcji, uruchom:
+
 ```bash
 node test-api.js
 ```
 
 ## Endpointy API
 
-### Kolumny:
+### Kolumny
+
 - GET `/api/collections/columns/records` - pobierz wszystkie kolumny
 - POST `/api/collections/columns/records` - utwórz kolumnę
 - PATCH `/api/collections/columns/records/{id}` - zaktualizuj kolumnę
 - DELETE `/api/collections/columns/records/{id}` - usuń kolumnę
 
-### Karty:
+### Karty
+
 - GET `/api/collections/cards/records` - pobierz wszystkie karty
 - POST `/api/collections/cards/records` - utwórz kartę
 - PATCH `/api/collections/cards/records/{id}` - zaktualizuj kartę

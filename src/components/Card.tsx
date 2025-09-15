@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { cardsApi } from '../services/pocketbase';
 
 interface CardProps {
@@ -13,6 +15,21 @@ const Card: React.FC<CardProps> = ({ id, title, order, columnId, onCardUpdate })
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(title);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  // Konfiguracja sortable dla karty
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   // Obsługa edycji tytułu karty
   const handleEditTitle = async () => {
@@ -49,10 +66,16 @@ const Card: React.FC<CardProps> = ({ id, title, order, columnId, onCardUpdate })
 
   return (
     <div 
-      className="bg-gray-700 rounded-lg shadow-md border border-gray-600 p-3 mb-3 cursor-pointer hover:shadow-lg hover:border-gray-500 hover:bg-gray-600 transition-all duration-200 group relative"
+      ref={setNodeRef}
+      style={style}
+      className={`bg-gray-700 rounded-lg shadow-md border border-gray-600 p-3 mb-3 cursor-pointer hover:shadow-lg hover:border-gray-500 hover:bg-gray-600 transition-all duration-200 group relative ${
+        isDragging ? 'opacity-50 shadow-2xl' : ''
+      }`}
       data-card-id={id}
       data-column-id={columnId}
       data-order={order}
+      {...attributes}
+      {...listeners}
     >
       <div className="flex items-start justify-between">
         {isEditing ? (
